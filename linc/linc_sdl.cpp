@@ -1,8 +1,8 @@
 //This file is included, so this is required!
+#include <hxcpp.h>
 #ifndef _LINC_SDL_CPP_
 #define _LINC_SDL_CPP_
 
-#include <hxcpp.h>
 #include "./linc_sdl.h"
 
 #include "../lib/sdl/include/SDL_revision.h"

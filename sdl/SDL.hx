@@ -1218,7 +1218,16 @@ extern class SDL {
         //:pending: static function SDL_WinRTGetFSPathUTF8():Void;
     #end
 
-
+//SDL_audio.h
+    @:native("SDL_OpenAudio")
+    static function openAudio(desired:cpp.Pointer<SDLAudioSpec>, obtained:cpp.Pointer<SDLAudioSpec>):Int;
+    
+    @:native("SDL_PauseAudio")
+    static function pauseAudio(pause_on:Int):Void;
+    
+    @:native("SDL_CloseAudio")
+    static function closeAudio():Void;
+    
 //Internal
 
     @:native('linc::sdl::init_event_watch')
@@ -1505,6 +1514,46 @@ abstract SDLHint(String)
         var SDL_HINT_WINDOWS_NO_CLOSE_ON_ALT_F4 =               "SDL_WINDOWS_NO_CLOSE_ON_ALT_F4";
 
 } //SDLHint
+
+@:native('SDL_AudioSpec')
+extern class SDLAudioSpec
+{
+    var freq:Int;
+    var format:SDLAudioFormat;
+    var channels:cpp.UInt8;
+    var silence:cpp.UInt8;
+    var samples:cpp.UInt16;
+    var size:UInt;
+    var callback:SDLAudioCallback;
+    var userdata:cpp.Pointer<Dynamic>;
+}
+
+@:native("SDL_AudioCallback")
+typedef SDLAudioCallback = cpp.RawPointer<cpp.Void>->cpp.RawPointer<cpp.UInt8>->Int->Void;
+
+@:enum
+abstract SDLAudioFormat(Int) from Int to Int
+{
+    var AUDIO_U8     = 0x0008;
+    var AUDIO_S8     = 0x8008;
+    var AUDIO_U16LSB = 0x0010;
+    var AUDIO_S16LSB = 0x8010;
+    var AUDIO_U16MSB = 0x1010;
+    var AUDIO_S16MSB = 0x9010;
+    var AUDIO_U16    = 0x0010;
+    var AUDIO_S16    = 0x8010;
+    
+    var AUDIO_S32LSB = 0x8020;
+    var AUDIO_S32MSB = 0x9020;
+    var AUDIO_S32    = 0x8020;
+    
+    var AUDIO_F32LSB = 0x8120;
+    var AUDIO_F32MSB = 0x9120;
+    var AUDIO_F32    = 0x8120;
+    
+    // TODO: SYS byteorder.
+    // TODO: Flags
+}
 
 @:enum
 abstract SDLWindowPos(Int)
